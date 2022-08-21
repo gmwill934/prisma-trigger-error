@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model shipment {
+  client       String  @default(dbgenerated("(current_setting('app.client'::text))::character varying(16)")) @db.VarChar(16)
+  warehouse    String  @default(dbgenerated("(current_setting('app.warehouse'::text))::character varying(16)")) @db.VarChar(16)
+  id           String  @id(map: "PK_Shipment__id") @default("") @db.VarChar(64)
+  notes        String?
+  is_validated Boolean @default(false)
+}
